@@ -23,6 +23,10 @@ newtype FrequencyTable =
   FrequencyTable { _table :: FTMap }
   deriving (Eq, Ord, Show)
 
+-- | Lens for 'FrequencyTable'
+table :: Functor f => (FTMap -> f FTMap) -> FrequencyTable -> f FrequencyTable
+table f (FrequencyTable a) = fmap FrequencyTable (f a)
+
 -- | Very inefficiently make a 'FrequencyTable' used for the markov chain.
 --
 -- Also, this is currently broken because it thinks the last word follows

@@ -14,11 +14,13 @@ import Data.List.Split (chunksOf)
 import qualified Data.Map as M
 import qualified Data.Text.Lazy as T
 
+type FTMap = M.Map T.Text (M.Map T.Text Integer)
+
 -- | A frequency table driven by 'M.Map's. On the outer layer, these are keyed
 -- by words of the 'T.Text'. These keys point to new 'M.Map's which are keyed on
 -- the next word and its frequency.
 newtype FrequencyTable =
-  FrequencyTable { table :: (M.Map T.Text (M.Map T.Text Integer)) }
+  FrequencyTable { _table :: FTMap }
   deriving (Eq, Ord, Show)
 
 -- | Very inefficiently make a 'FrequencyTable' used for the markov chain.

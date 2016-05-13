@@ -18,7 +18,7 @@ import qualified Data.Text.Lazy as T
 -- by words of the 'T.Text'. These keys point to new 'M.Map's which are keyed on
 -- the next word and its frequency.
 newtype FrequencyTable =
-  FrequencyTable (M.Map T.Text (M.Map T.Text Integer))
+  FrequencyTable { table :: (M.Map T.Text (M.Map T.Text Integer)) }
   deriving (Eq, Ord, Show)
 
 -- | Very inefficiently make a 'FrequencyTable' used for the markov chain.

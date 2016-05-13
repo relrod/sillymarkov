@@ -28,16 +28,11 @@ table :: Functor f => (FTMap -> f FTMap) -> FrequencyTable -> f FrequencyTable
 table f (FrequencyTable a) = fmap FrequencyTable (f a)
 
 -- | Very inefficiently make a 'FrequencyTable' used for the markov chain.
---
--- Also, this is currently broken because it thinks the last word follows
--- itself. i.e.,
---     mkFrequencyTable "foo"
---         == FrequencyTable (fromList [("foo",fromList [("foo",1)])])
 mkFrequencyTable :: T.Text -> FrequencyTable
 mkFrequencyTable = FrequencyTable . groupFreq . groupWords . splitWords
   where
     splitWords =
-      sort . chunksOf 2 . drop 1 . concatMap (replicate 2) . T.words
+      sort . init . chunksOf 2 . drop 1 . concatMap (replicate 2) . T.words
     groupWords = groupBy (\x y -> head x == head y)
     groupFreq =
       M.fromList . map (\l -> (head (head l), (countFreq . map last $ l)))
